@@ -1,12 +1,9 @@
 #!/bin/sh
 #
 echo $(date +"%F %T%z") "starting script setupl2tpvpn.sh"
-echo $MYGATEWAY
-echo $MYUSERNAME
-echo $MYSECRET
-echo $MYPASSWORD
 
-MYIP=`host rasperrypi | grep 'address' | cut -d' ' -f4)`
+MYIP=`host raspberrypi | grep 'address' | cut -d' ' -f4`
+cwd=$PWD
 
 if [ -z "$MYGATEWAY" ]; then
   echo "Error: Missing environment variable MYGATEWAY".
@@ -30,15 +27,29 @@ if [ -z "$MYIP" ]; then
 fi
 
 echo "----------------------------------"
+echo " SET STATIC IP"
+echo "----------------------------------"
+
+echo -e "interface eth0
+static ip_address=$MYIP/24
+static routers=$MYGATEWAY
+static domain_name_servers=$MYGATEWAY" >> /etc/dhcpcd.conf
+
+echo "----------------------------------"
 echo " INSTALLING DOCKER"
 echo "----------------------------------"
 
-curl -sSL https://get.docker.com | sh
-sudo systemctl enable docker
-sudo systemctl start docker
-sudo usermod -aG docker pi
-sudo su - pi
-
+if [ -x "$(command -v docker)" ]; then
+  echo " Docker is already installed"
+else
+  echo " Install docker"
+  curl -sSL https://get.docker.com | sh
+  sudo systemctl enable docker
+  sudo systemctl start docker
+  sudo usermod -aG docker pi
+  sudo su - pi
+fi
+cd $cwd
 echo "----------------------------------"
 echo " GET AND RUN ritazh/l2tpvpn DOCKER IMAGE"
 echo "----------------------------------"
@@ -47,6 +58,7 @@ docker run -p 500:500/udp -p 4500:4500/udp -e MYIP=$MYIP -e MYGATEWAY=$MYGATEWAY
 docker ps
 
 echo "----------------------------------"
+echo " docker ps"
 echo " A DOCKER CONTAINER SHOULD BE RUNNING"
 echo " CONNECT TO YOUR VPN SERVER WITH: "
 echo " USERNAME: $MYUSERNAME"
