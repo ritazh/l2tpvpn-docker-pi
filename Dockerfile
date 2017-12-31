@@ -3,7 +3,11 @@ LABEL maintainer="Rita Zhang <rita.z.zhang@gmail.com>"
 
 WORKDIR /opt/src
 
-ENV MYIP 192.168.1.119
+ENV MYIP $MYIP
+ENV MYGATEWAY $MYGATEWAY
+ENV MYUSERNAME $MYUSERNAME
+ENV MYSECRET $MYSECRET
+ENV MYPASSWORD $MYPASSWORD
 
 RUN sudo apt-get -yqq update \
     && DEBIAN_FRONTEND=noninteractive sudo apt-get install --yes --force-yes iptables openswan \
