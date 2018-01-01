@@ -1,7 +1,6 @@
 #!/bin/sh
 #
 echo $(date +"%F %T%z") "starting script setupl2tpvpn.sh"
-cd l2tpvpn-docker-pi-master
 
 MYIP=`hostname -I | cut -d' ' -f1`
 
@@ -38,8 +37,8 @@ static domain_name_servers=$MYGATEWAY" >> /etc/dhcpcd.conf
 echo "----------------------------------"
 echo " GET AND RUN ritazh/l2tpvpn DOCKER IMAGE"
 echo "----------------------------------"
-modprobe af_key
-docker run -p 500:500/udp -p 4500:4500/udp -e MYIP=$MYIP -e MYGATEWAY=$MYGATEWAY -e MYUSERNAME=$MYUSERNAME -e MYPASSWORD=$MYPASSWORD -e MYSECRET=$MYSECRET --privileged --net=host -v /lib/modules:/lib/modules:ro -d ritazh/l2tpvpn
+
+docker run --restart=always -p 500:500/udp -p 4500:4500/udp -e MYIP=$MYIP -e MYGATEWAY=$MYGATEWAY -e MYUSERNAME=$MYUSERNAME -e MYPASSWORD=$MYPASSWORD -e MYSECRET=$MYSECRET --privileged --net=host -v /lib/modules:/lib/modules:ro -d ritazh/l2tpvpn
 
 echo "----------------------------------"
 echo " DOCKER PS"
