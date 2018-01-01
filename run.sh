@@ -144,6 +144,6 @@ sudo dpkg -i openswan_2.6.37-3_armhf.deb
 echo "restarting services"
 modprobe af_key
 
-/etc/init.d/xl2tpd start
-/etc/init.d/ipsec start
+/etc/init.d/xl2tpd restart
+/etc/init.d/ipsec restart
 tail -f /dev/null
