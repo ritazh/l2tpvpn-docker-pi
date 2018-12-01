@@ -14,6 +14,8 @@ $ export MYGATEWAY=<REDACTED>
 $ export MYUSERNAME=<REDACTED>
 $ export MYPASSWORD=<REDACTED>
 $ export MYSECRET=<REDACTED>
+$ export MYIPRANGE_START=<REDACTED>
+$ export MYIPRANGE_END=<REDACTED>
 $ sudo chmod 755 setupDocker.sh && sudo chmod 755 setupl2tpvpn.sh
 $ ./setupDocker.sh
 $ cd l2tpvpn-docker-pi-master
@@ -38,8 +40,8 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 f4fcfd2482fa        ritazh/l2tpvpn      "/usr/bin/entry.sh /…"   1 second ago        Up Less than a second                       optimistic_dijkstra
 ----------------------------------
  MAKE SURE TO FORWARD UDP PORT 500 AND UDP PORT 4500 TO <REDACTED>
-                                  
- CONNECT TO YOUR VPN SERVER WITH: 
+
+ CONNECT TO YOUR VPN SERVER WITH:
  USERNAME: <REDACTED>
  SECRET: <REDACTED>
  PASSWORD: <REDACTED>
@@ -48,4 +50,4 @@ f4fcfd2482fa        ritazh/l2tpvpn      "/usr/bin/entry.sh /…"   1 second ago 
 
 ## Contributing
 
-This solution welcomes contributions and suggestions. Feel free to file issues and create pull requests. 
+This solution welcomes contributions and suggestions. Feel free to file issues and create pull requests.

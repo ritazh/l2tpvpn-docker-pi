@@ -8,9 +8,9 @@ echo $MYSECRET
 
 sudo iptables --table nat --append POSTROUTING --jump MASQUERADE
 echo "net.ipv4.ip_forward = 1" | tee -a /etc/sysctl.conf
-echo "net.ipv4.conf.all.accept_redirects = 0" | tee -a /etc/sysctl.conf 
-echo "net.ipv4.conf.all.send_redirects = 0" | tee -a /etc/sysctl.conf 
-for vpn in /proc/sys/net/ipv4/conf/*; do echo 0 > $vpn/accept_redirects; echo 0 > $vpn/send_redirects; done 
+echo "net.ipv4.conf.all.accept_redirects = 0" | tee -a /etc/sysctl.conf
+echo "net.ipv4.conf.all.send_redirects = 0" | tee -a /etc/sysctl.conf
+for vpn in /proc/sys/net/ipv4/conf/*; do echo 0 > $vpn/accept_redirects; echo 0 > $vpn/send_redirects; done
 sysctl -p
 
 echo "creating ipsec.conf"
@@ -89,7 +89,7 @@ cat > /etc/xl2tpd/xl2tpd.conf << EOF
 ipsec saref = yes
 listen-addr = $MYIP
 [lns default]
-ip range = 192.168.1.2-192.168.1.250
+ip range = $MYIPRANGE_START-$MYIPRANGE_END
 local ip = $MYIP
 assign ip = yes
 require chap = yes

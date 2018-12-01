@@ -24,6 +24,14 @@ if [ -z "$MYIP" ]; then
   echo "Error: Missing environment variable MYIP".
   exit 0
 fi
+if [ -z "$MYIPRANGE_START" ]; then
+  echo "Error: Missing environment variable MYIPRANGE_START".
+  exit 0
+fi
+if [ -z "$MYIPRANGE_END" ]; then
+  echo "Error: Missing environment variable MYIPRANGE_END".
+  exit 0
+fi
 
 echo "----------------------------------"
 echo " SET STATIC IP"
@@ -38,7 +46,22 @@ echo "----------------------------------"
 echo " GET AND RUN ritazh/l2tpvpn DOCKER IMAGE"
 echo "----------------------------------"
 
-docker run --restart=always -p 500:500/udp -p 4500:4500/udp -e MYIP=$MYIP -e MYGATEWAY=$MYGATEWAY -e MYUSERNAME=$MYUSERNAME -e MYPASSWORD=$MYPASSWORD -e MYSECRET=$MYSECRET --privileged --net=host -v /lib/modules:/lib/modules:ro -d ritazh/l2tpvpn
+docker run \
+  --restart=always \
+  -p 500:500/udp \
+  -p 4500:4500/udp \
+  -e MYIP=$MYIP \
+  -e MYGATEWAY=$MYGATEWAY \
+  -e MYUSERNAME=$MYUSERNAME \
+  -e MYPASSWORD=$MYPASSWORD \
+  -e MYSECRET=$MYSECRET \
+  -e MYIPRANGE_START=$MYIPRANGE_START \
+  -e MYIPRANGE_END=$MYIPRANGE_END \
+  --privileged \
+  --net=host \
+  -v /lib/modules:/lib/modules:ro \
+  -d \
+  ritazh/l2tpvpn
 
 echo "----------------------------------"
 echo " DOCKER PS"
